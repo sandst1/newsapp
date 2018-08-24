@@ -1,0 +1,26 @@
+[
+  {
+    "key": "sport",
+    "label": "Sports"
+  },
+  {
+    "key": "finance",
+    "label": "Finance"
+  },
+  {
+    "key": "gossip",
+    "label": "Latest gossip!"
+  },
+  {
+    "key": "world",
+    "label": "World news"
+  },
+  {
+    "key": "food",
+    "label": "Food"
+  },
+  {
+    "key": "local",
+    "label": "Local news"
+  }
+]
