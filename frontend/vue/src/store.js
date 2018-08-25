@@ -22,36 +22,36 @@ const state = {
 }
 
 const actions = {
-  async [types.LOAD_NEWS]({ commit }) {
+  async [types.LOAD_NEWS] ({ commit }) {
     const articles = await NewsService.loadArticles()
     const categories = await NewsService.loadCategories()
     commit(types.SET_NEWS, { articles, categories })
   },
 
-  [types.CHANGE_CATEGORY]({ commit, state, dispatch }, categoryKey) {
+  [types.CHANGE_CATEGORY] ({ commit, state, dispatch }, categoryKey) {
     if (!state.newsLoaded) {
       dispatch(types.LOAD_NEWS)
     }
     commit(types.SET_CATEGORY, categoryKey)
   },
 
-  [types.CHANGE_ARTICLE]({ commit }, articleId) {
+  [types.CHANGE_ARTICLE] ({ commit }, articleId) {
     commit(types.SET_ARTICLE, articleId)
   }
 }
 
 const mutations = {
-  [types.SET_NEWS](state, news) {
+  [types.SET_NEWS] (state, news) {
     state.articlesById = mapById(news.articles)
     state.categoriesById = mapById(news.categories)
     state.newsLoaded = true
   },
 
-  [types.SET_CATEGORY](state, categoryKey) {
+  [types.SET_CATEGORY] (state, categoryKey) {
     state.activeCategory = categoryKey
   },
 
-  [types.SET_ARTICLE](state, articleId) {
+  [types.SET_ARTICLE] (state, articleId) {
     state.activeArticleId = articleId
   }
 }

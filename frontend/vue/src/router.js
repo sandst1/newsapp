@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import { 
   Article,
+  ArticleList,
   News
 } from '@/views'
 
@@ -23,11 +24,15 @@ const router = new Router({
     },
     {
       path: '/news/:category',
-      name: routes.NEWS,
       component: News,
       children: [
         {
-          path: 'article/:articleId',
+          path: '',
+          name: routes.NEWS,
+          component: ArticleList
+        },
+        {
+          path: 'articles/:articleId',
           name: routes.ARTICLE,
           component: Article
         }
@@ -43,6 +48,8 @@ router.beforeEach((to, from, next) => {
   }
 
   store.dispatch(types.CHANGE_ARTICLE, to.params.articleId)
+
+  console.dir(to)
 
   next()
 })

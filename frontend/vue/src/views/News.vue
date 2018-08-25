@@ -5,31 +5,20 @@
       :active-category="activeCategory"
       :category-list="categories"/>
 
-    <div 
-      v-if="!activeArticle"
-      class="article-list-item"
-      @click="openArticle(article)"
-      :key="article.id" 
-      v-for="article in articles">
-      {{article.title}} {{article.created | date}}
-    </div>
-    <div v-if="activeArticle">
-      <div>
-        <h2>{{activeArticle.title}}</h2>
-        {{activeArticle.content}}
-      </div>
-    </div>
+    <router-view />
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import { types, routes } from '@/constants'
 import { Categories } from '@/components'
+import { Article } from '@/views'
 
 export default {
   components: {
-    Categories
+    Categories,
+    Article
   },
 
   computed: {
@@ -39,8 +28,7 @@ export default {
 
     ...mapGetters({
       articles: types.ARTICLES,
-      categories: types.CATEGORIES,
-      activeArticle: types.ACTIVE_ARTICLE
+      categories: types.CATEGORIES
     })
   },
 
@@ -53,24 +41,10 @@ export default {
           category: categoryKey
         }
       })
-    },
-
-    openArticle(article) {
-      this.$router.push({
-        name: routes.ARTICLE,
-        params: {
-          articleId: article.id,
-          category: article.category
-        }
-      })
     }
   }
 }
 </script>
 
 <style>
-  .article-list-item {
-    cursor: pointer;
-    margin: 10px 0;
-  }
 </style>
