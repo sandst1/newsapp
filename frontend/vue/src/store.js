@@ -2,47 +2,79 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import { NewsService } from '@/service'
+
+import {
+  CATEGORY_LATEST,
+  LATEST_ARTICLES_COUNT,
+  types
+} from '@/constants'
+
 import { mapById } from '@/utils'
 
 Vue.use(Vuex)
 
 const state = {
-  articles: [],
-  categories: []
+  newsLoaded: false,
+  articlesById: {},
+  categoriesById: {},
+  activeCategory: CATEGORY_LATEST,
+  activeArticleId: null
 }
 
 const actions = {
-  async loadNews({ dispatch }) {
-    dispatch('loadArticles')
-    dispatch('loadCategories')
-  },
-
-  async loadArticles({ commit }) {
+  async [types.LOAD_NEWS]({ commit }) {
     const articles = await NewsService.loadArticles()
-    commit('saveArticles', articles)
+    const categories = await NewsService.loadCategories()
+    commit(types.SET_NEWS, { articles, categories })
   },
 
-  async loadCategories({ commit }) {
-    const categories = await NewsService.loadCategories()
-    commit('saveCategories', categories)
+  [types.CHANGE_CATEGORY]({ commit, state, dispatch }, categoryKey) {
+    if (!state.newsLoaded) {
+      dispatch(types.LOAD_NEWS)
+    }
+    commit(types.SET_CATEGORY, categoryKey)
+  },
+
+  [types.CHANGE_ARTICLE]({ commit }, articleId) {
+    commit(types.SET_ARTICLE, articleId)
   }
 }
 
 const mutations = {
-  saveArticles(state, articles) {
-    state.articles = articles
+  [types.SET_NEWS](state, news) {
+    state.articlesById = mapById(news.articles)
+    state.categoriesById = mapById(news.categories)
+    state.newsLoaded = true
   },
-  
-  saveCategories(state, categories) {
-    state.categories = categories
+
+  [types.SET_CATEGORY](state, categoryKey) {
+    state.activeCategory = categoryKey
+  },
+
+  [types.SET_ARTICLE](state, articleId) {
+    state.activeArticleId = articleId
   }
 }
 
 const getters = {
-  latestArticles: (state) => {
-    const articles = [].concat(state.articles)
-    articles.sort((a, b) => new Date(a.created) > new Date(b.created) ? -1 : 1 )
-    return articles
+  [types.CATEGORIES]: state => Object.values(state.categoriesById),
+  
+  [types.ARTICLES]: state => {
+    const allArticles = Object.values(state.articlesById)
+
+    if (CATEGORY_LATEST === state.activeCategory) {
+      const articleList = [].concat(allArticles)
+      articleList.sort((a, b) => new Date(a.created) > new Date(b.created) ? -1 : 1 )
+      return articleList.slice(0, LATEST_ARTICLES_COUNT)
+    }
+    return allArticles.filter(a => a.category === state.activeCategory)
+  },
+
+  [types.ACTIVE_ARTICLE]: state => {
+    if (state.activeArticleId) {
+      return state.articlesById[state.activeArticleId]
+    }
+    return null
   }
 }
 

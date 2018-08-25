@@ -1,5 +1,9 @@
 [
   {
+    "key": "latest",
+    "label": "Latest"
+  },
+  {
     "key": "sport",
     "label": "Sports"
   },
