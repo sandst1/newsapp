@@ -17,7 +17,7 @@ import { types, routes } from '@/constants'
 export default {
   computed: {
     ...mapGetters({
-      articles: types.ARTICLES
+      articles: types.ARTICLES_OF_ACTIVE_CATEGORY
     })
   },
 

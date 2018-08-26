@@ -27,7 +27,7 @@ export default {
     },
 
     ...mapGetters({
-      articles: types.ARTICLES,
+      articles: types.ARTICLES_OF_ACTIVE_CATEGORY,
       categories: types.CATEGORIES
     })
   },

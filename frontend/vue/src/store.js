@@ -62,7 +62,7 @@ const mutations = {
 const getters = {
   [types.CATEGORIES]: state => Object.values(state.categoriesById),
   
-  [types.ARTICLES]: state => {
+  [types.ARTICLES_OF_ACTIVE_CATEGORY]: state => {
     const allArticles = sortByCreatedDesc(Object.values(state.articlesById))
 
     if (CATEGORY_LATEST === state.activeCategory) {

@@ -10,7 +10,7 @@ export const types = {
   SET_CATEGORY: 'setCategory',
   SET_ARTICLE: 'setArticle',
   CATEGORIES: 'categories',
-  ARTICLES: 'articles',
+  ARTICLES_OF_ACTIVE_CATEGORY: 'articlesOfActiveCategory',
   ACTIVE_ARTICLE: 'activeArticle'
 }
 
