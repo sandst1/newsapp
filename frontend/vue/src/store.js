@@ -9,7 +9,10 @@ import {
   types
 } from '@/constants'
 
-import { mapById } from '@/utils'
+import { 
+  mapById,
+  sortByCreatedDesc
+} from '@/utils'
 
 Vue.use(Vuex)
 
@@ -60,12 +63,10 @@ const getters = {
   [types.CATEGORIES]: state => Object.values(state.categoriesById),
   
   [types.ARTICLES]: state => {
-    const allArticles = Object.values(state.articlesById)
+    const allArticles = sortByCreatedDesc(Object.values(state.articlesById))
 
     if (CATEGORY_LATEST === state.activeCategory) {
-      const articleList = [].concat(allArticles)
-      articleList.sort((a, b) => new Date(a.created) > new Date(b.created) ? -1 : 1 )
-      return articleList.slice(0, LATEST_ARTICLES_COUNT)
+      return allArticles.slice(0, LATEST_ARTICLES_COUNT)
     }
     return allArticles.filter(a => a.category === state.activeCategory)
   },

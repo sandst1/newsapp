@@ -6,6 +6,16 @@ const mapById = function(list) {
   }, {})
 }
 
+const sortByCreatedDesc = function(list) {
+  list.sort((a, b) => {
+    const aDate = new Date(a.created)
+    const bDate = new Date(b.created)
+    return aDate > bDate ? -1 : 1
+  })
+  return list
+}
+
 export {
-  mapById
+  mapById,
+  sortByCreatedDesc
 }

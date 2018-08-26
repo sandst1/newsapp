@@ -7,7 +7,6 @@ import {
 } from '@/views'
 
 import store from '@/store'
-
 import { types, routes } from '@/constants'
 
 Vue.use(Router)
@@ -48,8 +47,6 @@ router.beforeEach((to, from, next) => {
   }
 
   store.dispatch(types.CHANGE_ARTICLE, to.params.articleId)
-
-  console.dir(to)
 
   next()
 })
