@@ -48,5 +48,6 @@ export default {
     width: 80vw;
     margin: 0 auto;
     text-align: center;
+    user-select: none;
   }
 </style>

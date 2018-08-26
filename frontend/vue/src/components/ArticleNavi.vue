@@ -1,17 +1,17 @@
 <template>
   <div class="article-navi">
     <div 
-      v-if="prevVisible"
-      @click="$emit('prev')"
+      @click="prev"
       class="prev">
-      &lt;
+      {{prevEnabled ? '&lt;' : '&nbsp;'}}
     </div>
-    <div class="curIndex">{{current + 1}}/{{total}}</div>
+    <div class="curIndex">
+      {{currentIndex}}/{{total}}
+    </div>
     <div 
-      v-if="nextVisible"
-      @click="$emit('next')"
+      @click="next"
       class="next">
-      &gt;
+      {{nextEnabled ? '&gt;' : '&nbsp;'}}
     </div>
   </div>
 </template>
@@ -30,12 +30,34 @@ export default {
   },
 
   computed: {
-    prevVisible() {
+    currentIndex() {      
+      let cur = this.current + 1
+      if (cur < 10) {
+        cur = '0' + cur
+      }
+      return cur
+    },
+
+    prevEnabled() {
       return this.current > 0
     },
 
-    nextVisible() {
+    nextEnabled() {
       return this.current + 1 < this.total
+    }
+  },
+
+  methods: {
+    prev() {
+      if (this.prevEnabled) {
+        this.$emit('prev')
+      }
+    },
+
+    next() {
+      if (this.nextEnabled) {
+        this.$emit('next')
+      }
     }
   }
 }
